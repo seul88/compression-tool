@@ -47,7 +47,8 @@ export default function LoadFile(props) {
         ...(isDragReject ? rejectStyle : {})
       }), [
         isDragActive,
-        isDragReject
+        isDragReject,
+        isDragAccept,
       ]);
     
       console.log(acceptedFiles)
