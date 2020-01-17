@@ -3,7 +3,7 @@ import { Row, Container } from 'react-bootstrap';
 import  Chart  from './Chart'
 import  InfoComponent  from './InfoComponent'
 import  LoadFile  from './LoadFile'
-import  Table  from './Table'
+import  ResultTable  from './ResultTable'
 
 export default function MainComponent() {
     return (
@@ -14,8 +14,8 @@ export default function MainComponent() {
             <Row className="justify-content-center">
                 <LoadFile />
             </Row>
-            <Row className="justify-content-center">
-                <Table />
+            <Row className="justify-content-center mt-2">
+                <ResultTable />
             </Row>
             <Row className="justify-content-center">
                 <Chart /> 
