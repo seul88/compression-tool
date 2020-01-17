@@ -1,5 +1,7 @@
 import React, {useMemo} from 'react';
 import {useDropzone} from 'react-dropzone';
+import { Col, Button } from 'react-bootstrap';
+import  CustomizeForm  from './CustomizeForm'
 
 const baseStyle = {
   flex: 1,
@@ -60,12 +62,23 @@ export default function LoadFile(props) {
         ));
 
       return (
-        <div className="container">
-          <div {...getRootProps({style})}>
-            <input {...getInputProps()} />
-            <p>Umieść tutaj plik przeznaczony do kompresji!</p>
-            {files}
-          </div>
-        </div>
+        <>
+          <Col md={8}>
+              <div className="container">
+                <div {...getRootProps({style})}>
+                <input {...getInputProps()} />
+                <p>Umieść tutaj plik przeznaczony do kompresji!</p>
+                {files}
+                
+                </div>
+              </div>
+          </Col>
+          <Col md={4}>
+            <CustomizeForm />
+            <Button variant="primary" type="submit">
+                Analizuj plik
+            </Button>
+          </Col>
+        </>
       );
     }

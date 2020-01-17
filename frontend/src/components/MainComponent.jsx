@@ -1,10 +1,9 @@
 import React from 'react'
-import { Row, Col, Container } from 'react-bootstrap';
+import { Row, Container } from 'react-bootstrap';
 import  Chart  from './Chart'
 import  InfoComponent  from './InfoComponent'
 import  LoadFile  from './LoadFile'
 import  ResultTable  from './ResultTable'
-import  CustomizeForm  from './CustomizeForm'
 
 export default function MainComponent() {
     return (
@@ -13,12 +12,7 @@ export default function MainComponent() {
                 <InfoComponent />
             </Row>
             <Row className="justify-content-center">
-                <Col md={8}>
-                    <LoadFile />
-                </Col>
-                <Col md={4}>
-                    <CustomizeForm />
-                </Col>
+                <LoadFile />
             </Row>
             <Row className="justify-content-center mt-2">
                 <ResultTable />
