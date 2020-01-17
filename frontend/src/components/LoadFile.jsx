@@ -33,6 +33,8 @@ const rejectStyle = {
 
 const buttonClickHandler = (file) => {
   console.log(file)
+  console.log(localStorage.getItem('compressionType'));
+  console.log(localStorage.getItem('fileFormat'));
 }
 
 

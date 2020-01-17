@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {useEffect} from 'react'
 import { Row, Container } from 'react-bootstrap';
 import  Chart  from './Chart'
 import  InfoComponent  from './InfoComponent'
@@ -6,6 +6,12 @@ import  LoadFile  from './LoadFile'
 import  ResultTable  from './ResultTable'
 
 export default function MainComponent() {
+
+    useEffect(() => {
+        localStorage.setItem('compressionType', "słaba");
+        localStorage.setItem('fileFormat', "zip");
+      }, []);
+
     return (
         <Container>
             <Row className="justify-content-left">
