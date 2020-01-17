@@ -1,5 +1,6 @@
 import React from 'react';
 import { Bar } from 'react-chartjs-2';
+import { Col } from 'react-bootstrap';
 
 
 export default function Chart(){
@@ -44,15 +45,16 @@ export default function Chart(){
       };
 
 
-        return (
+      return (
+        <Col md={12}> 
           <div className="mt-1">
             ((dla każdej metody kompresji generowane po 2 wykresy - czasu i rozmiaru))
           <div className="mt-2">
-              <h6>Zestawienie rozmiaru pliku przed kompresją i po kompresji</h6>
+              <h4>Zestawienie rozmiaru pliku przed kompresją i po kompresji</h4>
               <Bar
                 data={sizes}
-                width={600}
-                height={300}
+                width={1000}
+                height={500}
                 options={{
                   responsive: false, 
                   maintainAspectRatio: false
@@ -61,18 +63,18 @@ export default function Chart(){
             </div>
 
             <div className="mt-2">
-              <h6>Zestawienie czasów kompresji pliku</h6>
+              <h4>Zestawienie czasów kompresji pliku</h4>
               <Bar
                 data={times}
-                width={600}
-                height={300}
+                width={1000}
+                height={500}
                 options={{
                   responsive: false, 
                   maintainAspectRatio: false
                 }}
               />
             </div>
-
           </div>
-        );
+        </Col>
+      );
 }

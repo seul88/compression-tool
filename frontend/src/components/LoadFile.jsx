@@ -6,7 +6,7 @@ const baseStyle = {
   display: 'flex',
   flexDirection: 'column',
   alignItems: 'center',
-  padding: '20px',
+  padding: '100px',
   borderWidth: 2,
   borderRadius: 2,
   borderColor: '#eeeeee',
@@ -63,7 +63,7 @@ export default function LoadFile(props) {
         <div className="container">
           <div {...getRootProps({style})}>
             <input {...getInputProps()} />
-            <p>Drag 'n' drop some files here, or click to select files</p>
+            <p>Umieść tutaj plik przeznaczony do kompresji!</p>
             {files}
           </div>
         </div>
