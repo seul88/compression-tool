@@ -31,8 +31,13 @@ const rejectStyle = {
   borderColor: '#ff1744'
 };
 
+const buttonClickHandler = (file) => {
+  console.log(file)
+}
+
 
 export default function LoadFile(props) {
+
     const {
         getRootProps,
         getInputProps,
@@ -57,7 +62,7 @@ export default function LoadFile(props) {
 
         const files = acceptedFiles.map(file => (
             <li key={file.path}>
-            {file.path} - {file.size} bytes
+              {file.path} - {file.size} bytes
             </li>
         ));
 
@@ -65,17 +70,16 @@ export default function LoadFile(props) {
         <>
           <Col md={8}>
               <div className="container">
-                <div {...getRootProps({style})}>
-                <input {...getInputProps()} />
-                <p>Umieść tutaj plik przeznaczony do kompresji!</p>
-                {files}
-                
+                  <div {...getRootProps({style})}>
+                  <input {...getInputProps()} />
+                  <p>Umieść tutaj plik przeznaczony do kompresji!</p>
+                  {files}
                 </div>
               </div>
           </Col>
           <Col md={4}>
             <CustomizeForm />
-            <Button variant="primary" type="submit">
+            <Button variant="primary" type="submit"  onClick={() => buttonClickHandler(acceptedFiles)}>
                 Analizuj plik
             </Button>
           </Col>
