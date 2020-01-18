@@ -39,6 +39,7 @@ export default function LoadFile(props) {
 
 const [displayResults, setDisplayResults] = useState(false);
 const [values, setValues] = useState();
+const [chartData, setChartData] = useState(); 
 
 const buttonClickHandler = (file) => {
   console.log(file)
@@ -80,12 +81,49 @@ const buttonClickHandler = (file) => {
           } 
         ];
       
-      const chartData = { 
+      const chartData = [
+        {
+          "metodaKompresji" : "A",
+          "czasKompresji" : 10,
+          "rozmiarPlikuWejsciowego" : 10,
+          "rozmiarPlikuWyjsciowego" : 10,
+          "stopienKompresji" : 10
+        },
+        {
+          "metodaKompresji" : "B",
+          "czasKompresji" : 20,
+          "rozmiarPlikuWejsciowego" : 20,
+          "rozmiarPlikuWyjsciowego" : 20,
+          "stopienKompresji" : 20
+        },
+        {
+          "metodaKompresji" : "C",
+          "czasKompresji" : 30,
+          "rozmiarPlikuWejsciowego" : 30,
+          "rozmiarPlikuWyjsciowego" : 30,
+          "stopienKompresji" : 30
+        },
+        {
+          "metodaKompresji" : "D",
+          "czasKompresji" : 40,
+          "rozmiarPlikuWejsciowego" : 40,
+          "rozmiarPlikuWyjsciowego" : 40,
+          "stopienKompresji" : 40
+        },
+        {
+          "metodaKompresji" : "E",
+          "czasKompresji" : 50,
+          "rozmiarPlikuWejsciowego" : 50,
+          "rozmiarPlikuWyjsciowego" : 50,
+          "stopienKompresji" : 50
+        }
+      ]
 
-      }
+      
 
       setDisplayResults(true)
       setValues(tableData)
+      setChartData(chartData)
   })
 }
 
@@ -144,7 +182,7 @@ useEffect(() => {
                   <ResultTable values={values}/>
               </Row>
               <Row className="justify-content-center">
-                  <Chart values={values} /> 
+                  <Chart chartData={chartData} /> 
             </Row>
           </div>
           }
