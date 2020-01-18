@@ -21,22 +21,20 @@ console.log(props.values)
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <td>1</td>
-                        <td>A</td>
-                        <td>100</td>
-                        <td>100</td>
-                        <td>80</td>
-                        <td>80</td>
-                    </tr>
-                    <tr>
-                        <td>2</td>
-                        <td>B</td>
-                        <td>150</td>
-                        <td>200</td>
-                        <td>140</td>
-                        <td>70</td>
-                    </tr>
+                    {props.values && 
+                    props.values.map((item, index) => {
+                        return (
+                            <tr key={index}>
+                                <td>{index+1}</td>
+                                <td>{item.metodaKompresji}</td>
+                                <td>{item.czasKompresji}</td>
+                                <td>{item.rozmiarPlikuWejsciowego}</td>
+                                <td>{item.rozmiarPlikuWyjsciowego}</td>
+                                <td>{item.stopienKompresji}</td>
+                            </tr>
+                        )
+                    })
+                    }
                 </tbody>
             </Table>
         </Col>

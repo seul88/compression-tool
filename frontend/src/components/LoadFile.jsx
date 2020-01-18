@@ -4,6 +4,7 @@ import { Row, Col, Button } from 'react-bootstrap';
 import  CustomizeForm  from './CustomizeForm'
 import  ResultTable  from './ResultTable'
 import  Chart  from './Chart'
+import axios from 'axios';
 
 const baseStyle = {
   flex: 1,
@@ -33,24 +34,60 @@ const rejectStyle = {
   borderColor: '#ff1744'
 };
 
-const buttonClickHandler = (file, setDisplayResults, setValues) => {
-  console.log(file)
-  console.log(localStorage.getItem('compressionType'));
-  console.log(localStorage.getItem('fileFormat'));
-
-  // axios - async call ... 
-
-
-
-  setDisplayResults(true)
-  setValues(1234)
-}
-
 
 export default function LoadFile(props) {
 
 const [displayResults, setDisplayResults] = useState(false);
 const [values, setValues] = useState();
+
+const buttonClickHandler = (file) => {
+  console.log(file)
+  console.log(localStorage.getItem('compressionType'));
+  console.log(localStorage.getItem('fileFormat'));
+  
+  // axios - async call with params: <file, compressionType, fileFormat>
+  axios.get('https://swapi.co/api/people/1/')
+  .then(response => {
+      console.log(response.data)
+      /*
+        > get data for charts and table
+        > save it to state with: setDisplayResults() and setValues()
+      */
+
+      // data mockups: 
+      const tableData = 
+        [
+          {
+            "metodaKompresji" : "A",
+            "czasKompresji" : 10,
+            "rozmiarPlikuWejsciowego" : 10,
+            "rozmiarPlikuWyjsciowego" : 10,
+            "stopienKompresji" : 10
+          },
+          {
+            "metodaKompresji" : "B",
+            "czasKompresji" : 10,
+            "rozmiarPlikuWejsciowego" : 10,
+            "rozmiarPlikuWyjsciowego" : 10,
+            "stopienKompresji" : 10
+          },
+          {
+            "metodaKompresji" : "C",
+            "czasKompresji" : 10,
+            "rozmiarPlikuWejsciowego" : 10,
+            "rozmiarPlikuWyjsciowego" : 10,
+            "stopienKompresji" : 10
+          } 
+        ];
+      
+      const chartData = { 
+
+      }
+
+      setDisplayResults(true)
+      setValues(tableData)
+  })
+}
 
 useEffect(() => {
   //console.log(values)
@@ -97,7 +134,7 @@ useEffect(() => {
           </Col>
           <Col md={4}>
             <CustomizeForm />
-            <Button variant="primary" type="submit"  onClick={() => {buttonClickHandler(acceptedFiles, setDisplayResults, setValues); }}>
+            <Button variant="primary" type="submit"  onClick={buttonClickHandler}>
                 Analizuj plik
             </Button>
           </Col>
