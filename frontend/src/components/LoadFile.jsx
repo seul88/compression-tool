@@ -1,7 +1,9 @@
-import React, {useMemo} from 'react';
+import React, {useMemo, useEffect, useState} from 'react';
 import {useDropzone} from 'react-dropzone';
-import { Col, Button } from 'react-bootstrap';
+import { Row, Col, Button } from 'react-bootstrap';
 import  CustomizeForm  from './CustomizeForm'
+import  ResultTable  from './ResultTable'
+import  Chart  from './Chart'
 
 const baseStyle = {
   flex: 1,
@@ -31,14 +33,28 @@ const rejectStyle = {
   borderColor: '#ff1744'
 };
 
-const buttonClickHandler = (file) => {
+const buttonClickHandler = (file, setDisplayResults, setValues) => {
   console.log(file)
   console.log(localStorage.getItem('compressionType'));
   console.log(localStorage.getItem('fileFormat'));
+
+  // axios - async call ... 
+
+
+
+  setDisplayResults(true)
+  setValues(1234)
 }
 
 
 export default function LoadFile(props) {
+
+const [displayResults, setDisplayResults] = useState(false);
+const [values, setValues] = useState();
+
+useEffect(() => {
+  //console.log(values)
+}, [values])
 
     const {
         getRootProps,
@@ -81,10 +97,20 @@ export default function LoadFile(props) {
           </Col>
           <Col md={4}>
             <CustomizeForm />
-            <Button variant="primary" type="submit"  onClick={() => buttonClickHandler(acceptedFiles)}>
+            <Button variant="primary" type="submit"  onClick={() => {buttonClickHandler(acceptedFiles, setDisplayResults, setValues); }}>
                 Analizuj plik
             </Button>
           </Col>
+          {displayResults &&
+          <div>
+            <Row className="justify-content-center mt-2">
+                  <ResultTable values={values}/>
+              </Row>
+              <Row className="justify-content-center">
+                  <Chart values={values} /> 
+            </Row>
+          </div>
+          }
         </>
       );
     }

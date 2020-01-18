@@ -1,7 +1,9 @@
 import React from 'react'
 import { Table, Col } from 'react-bootstrap';
 
-export default function ResultTable() {
+export default function ResultTable(props) {
+console.log(props.values)
+
     return (
         <Col md={12}>
             <div className="mt-5">
