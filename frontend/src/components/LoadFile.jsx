@@ -53,7 +53,9 @@ const buttonClickHandler = () => {
     headers: {'Content-Type': 'multipart/form-data' }
     })
     .then(function (response) {
-        console.log(response);
+        console.log(response.data);
+        var obj = JSON.parse(response.data)
+        console.log(obj[0].fields)
 
         const tableData = 
         [
@@ -77,7 +79,21 @@ const buttonClickHandler = () => {
             "rozmiarPlikuWejsciowego" : 10,
             "rozmiarPlikuWyjsciowego" : 10,
             "stopienKompresji" : 10
-          } 
+          },
+          {
+            "metodaKompresji" : "D",
+            "czasKompresji" : 10,
+            "rozmiarPlikuWejsciowego" : 10,
+            "rozmiarPlikuWyjsciowego" : 10,
+            "stopienKompresji" : 10
+          },
+          {
+            "metodaKompresji" : "E",
+            "czasKompresji" : 10,
+            "rozmiarPlikuWejsciowego" : 10,
+            "rozmiarPlikuWyjsciowego" : 10,
+            "stopienKompresji" : 10
+          }  
         ];
       
       const chartData = [

@@ -2,6 +2,7 @@ from django.http import HttpResponse, JsonResponse
 from .models import Measure 
 from django.core import serializers
 from django.views.decorators.csrf import csrf_exempt
+import json
 
 def index(request):
     return HttpResponse("Hello, world. You're at the benchmark index.")
@@ -34,7 +35,9 @@ def compressionCalculation(request, silaKompresji, format):
     rozmiarPlikuWyjsciowego = 25
     stopienKompresji = 30
 
-    newMeasure  = Measure(metodaKompresji = metodaKompresji, czasKompresji = czasKompresji, rozmiarPlikuWejsciowego = rozmiarPlikuWejsciowego, rozmiarPlikuWyjsciowego = rozmiarPlikuWyjsciowego, stopienKompresji = stopienKompresji)
+    # Here: refactor for array of few measures
+    newMeasure = Measure(metodaKompresji = metodaKompresji, czasKompresji = czasKompresji, rozmiarPlikuWejsciowego = rozmiarPlikuWejsciowego, rozmiarPlikuWyjsciowego = rozmiarPlikuWyjsciowego, stopienKompresji = stopienKompresji)
     newMeasure.save()
+    
     serializedMeasure = serializers.serialize('json', [ newMeasure, ])
-    return JsonResponse({"pomiar" : serializedMeasure}, safe=False)
+    return JsonResponse(serializedMeasure, safe=False)
