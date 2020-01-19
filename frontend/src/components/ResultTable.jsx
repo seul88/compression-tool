@@ -2,7 +2,6 @@ import React from 'react'
 import { Table, Col } from 'react-bootstrap';
 
 export default function ResultTable(props) {
-console.log(props.values)
 
     return (
         <Col md={12}>

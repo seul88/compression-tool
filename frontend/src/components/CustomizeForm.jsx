@@ -4,12 +4,10 @@ import { Form } from 'react-bootstrap';
 export default function CustomizeForm() {
     
     const handle1 = (event) => {
-        console.log(event.target.value)
         localStorage.setItem('compressionType', event.target.value);
     }
 
     const handle2 = (event) => {
-        console.log(event.target.value)
         localStorage.setItem('fileFormat', event.target.value);
     }
 
