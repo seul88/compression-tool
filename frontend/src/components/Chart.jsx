@@ -59,7 +59,15 @@ if (props.chartData){
                 height={500}
                 options={{
                   responsive: false, 
-                  maintainAspectRatio: false
+                  maintainAspectRatio: false,
+                  scales: {
+                    yAxes: [{
+                        display: true,
+                        ticks: {
+                            beginAtZero: true
+                        }
+                    }]
+                  }
                 }}
               />
             </div>
@@ -72,7 +80,15 @@ if (props.chartData){
                 height={500}
                 options={{
                   responsive: false, 
-                  maintainAspectRatio: false
+                  maintainAspectRatio: false,
+                  scales: {
+                    yAxes: [{
+                        display: true,
+                        ticks: {
+                            beginAtZero: true
+                        }
+                    }]
+                  }
                 }}
               />
             </div>
