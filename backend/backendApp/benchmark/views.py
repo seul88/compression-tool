@@ -12,9 +12,14 @@ def allMeasures(request):
 
 @csrf_exempt
 def compressionCalculation(request, silaKompresji, format):
-    print(request.FILES)
+
     # EXEC MEASURE HERE
     # USE VARIABLES silaKompresji and format
+    # file to convert is stored as uploaded_file variable
+
+
+    uploaded_file = request.FILES['fileUpload']
+    print(uploaded_file.size) # file size in bytes 
     
     #########
     #########
@@ -22,6 +27,7 @@ def compressionCalculation(request, silaKompresji, format):
 
     # PASS MEASURED VALUES HERE
     # (mockup measure parameters)
+    
     metodaKompresji = "ABCD"
     czasKompresji = 15
     rozmiarPlikuWejsciowego = 20
