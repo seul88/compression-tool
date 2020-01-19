@@ -7,3 +7,12 @@ def index(request):
 def allMeasures(request):
     measures = Measure.objects.all()
     return JsonResponse({"pomiary" : list(measures)}, safe=False)
+
+def compressionCalculation(request, silaKompresji, format):
+    #print(silaKompresji)
+    #print(format)
+
+
+
+    measures = Measure.objects.all()
+    return JsonResponse({"pomiary" : list(measures)}, safe=False)
