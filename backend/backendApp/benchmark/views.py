@@ -1,6 +1,7 @@
 from django.http import HttpResponse, JsonResponse
 from .models import Measure 
 from django.core import serializers
+from django.views.decorators.csrf import csrf_exempt
 
 def index(request):
     return HttpResponse("Hello, world. You're at the benchmark index.")
@@ -9,6 +10,7 @@ def allMeasures(request):
     measures = Measure.objects.all()
     return JsonResponse({"pomiary" : list(measures)}, safe=False)
 
+@csrf_exempt
 def compressionCalculation(request, silaKompresji, format):
     # EXEC MEASURE HERE
     # USE VARIABLES silaKompresji and format

@@ -47,7 +47,7 @@ const buttonClickHandler = (file) => {
   console.log(localStorage.getItem('fileFormat'));
   
   // axios - async call with params: <file, compressionType, fileFormat>
-  axios.get('http://localhost:8000/benchmark/calculate/silaKompresji/' + localStorage.getItem('compressionType') + '/format/' + localStorage.getItem('fileFormat'))
+  axios.post('http://localhost:8000/benchmark/calculate/silaKompresji/' + localStorage.getItem('compressionType') + '/format/' + localStorage.getItem('fileFormat'))
   .then(response => {
       console.log(response.data)
       /*
