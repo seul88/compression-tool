@@ -41,22 +41,21 @@ const [displayResults, setDisplayResults] = useState(false);
 const [values, setValues] = useState();
 const [chartData, setChartData] = useState(); 
 
-const buttonClickHandler = (file) => {
-  console.log(file)
-  console.log(localStorage.getItem('compressionType'));
-  console.log(localStorage.getItem('fileFormat'));
-  
-  // axios - async call with params: <file, compressionType, fileFormat>
-  axios.post('http://localhost:8000/benchmark/calculate/silaKompresji/' + localStorage.getItem('compressionType') + '/format/' + localStorage.getItem('fileFormat'))
-  .then(response => {
-      console.log(response.data)
-      /*
-        > get data for charts and table
-        > save it to state with: setDisplayResults() and setValues()
-      */
+const buttonClickHandler = () => {
 
-      // data mockups: 
-      const tableData = 
+  let bodyFormData = new FormData();
+  bodyFormData.append('fileUpload', acceptedFiles[0]);
+  
+  axios({
+    method: 'post',
+    url: 'http://localhost:8000/benchmark/calculate/silaKompresji/' + localStorage.getItem('compressionType') + '/format/' + localStorage.getItem('fileFormat'),
+    data: bodyFormData,
+    headers: {'Content-Type': 'multipart/form-data' }
+    })
+    .then(function (response) {
+        console.log(response);
+
+        const tableData = 
         [
           {
             "metodaKompresji" : "A",
@@ -124,11 +123,16 @@ const buttonClickHandler = (file) => {
       setDisplayResults(true)
       setValues(tableData)
       setChartData(chartData)
-  })
+
+    })
+    .catch(function (response) {
+        console.log(response);
+    });
+
+
 }
 
 useEffect(() => {
-  //console.log(values)
 }, [values])
 
     const {
@@ -151,8 +155,6 @@ useEffect(() => {
         isDragAccept,
       ]);
     
-      console.log(acceptedFiles)
-
         const files = acceptedFiles.map(file => (
             <li key={file.path}>
               {file.path} - {file.size} bytes

@@ -12,6 +12,7 @@ def allMeasures(request):
 
 @csrf_exempt
 def compressionCalculation(request, silaKompresji, format):
+    print(request.FILES)
     # EXEC MEASURE HERE
     # USE VARIABLES silaKompresji and format
     
