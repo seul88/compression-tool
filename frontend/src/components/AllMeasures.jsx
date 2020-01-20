@@ -26,10 +26,9 @@ export default function AllMeasures() {
                       )
                     })
                     setDisplayData(tableData)
+                    setShowTable(true)
                 }
             )
-
-        setShowTable(true)
     }
 
     return (
