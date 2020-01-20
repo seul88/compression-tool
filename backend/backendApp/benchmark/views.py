@@ -8,8 +8,8 @@ def index(request):
     return HttpResponse("Hello, world. You're at the benchmark index.")
 
 def allMeasures(request):
-    measures = Measure.objects.all()
-    return JsonResponse({"pomiary" : list(measures)}, safe=False)
+    serializedMeasure = serializers.serialize('json', Measure.objects.all(), fields=('metodaKompresji','czasKompresji', 'rozmiarPlikuWejsciowego', 'rozmiarPlikuWyjsciowego', 'stopienKompresji' ,))
+    return JsonResponse(serializedMeasure, safe=False)
 
 @csrf_exempt
 def compressionCalculation(request, silaKompresji, format):
@@ -36,8 +36,26 @@ def compressionCalculation(request, silaKompresji, format):
     stopienKompresji = 30
 
     # Here: refactor for array of few measures
-    newMeasure = Measure(metodaKompresji = metodaKompresji, czasKompresji = czasKompresji, rozmiarPlikuWejsciowego = rozmiarPlikuWejsciowego, rozmiarPlikuWyjsciowego = rozmiarPlikuWyjsciowego, stopienKompresji = stopienKompresji)
-    newMeasure.save()
+    #newMeasure = Measure(metodaKompresji = metodaKompresji, czasKompresji = czasKompresji, rozmiarPlikuWejsciowego = rozmiarPlikuWejsciowego, rozmiarPlikuWyjsciowego = rozmiarPlikuWyjsciowego, stopienKompresji = stopienKompresji)
+    #newMeasure.save()
     
-    serializedMeasure = serializers.serialize('json', [ newMeasure, ])
+    #serializedMeasure = serializers.serialize('json', [ newMeasure, ])
+    #return JsonResponse(serializedMeasure, safe=False)
+
+    numberOfCompressionMethods = 5
+
+    newMeasure1 = Measure(metodaKompresji = 'A', czasKompresji = 15, rozmiarPlikuWejsciowego = uploaded_file.size, rozmiarPlikuWyjsciowego = uploaded_file.size, stopienKompresji = 0)
+    newMeasure2 = Measure(metodaKompresji = 'B', czasKompresji = 25, rozmiarPlikuWejsciowego = uploaded_file.size, rozmiarPlikuWyjsciowego = uploaded_file.size, stopienKompresji = 0)
+    newMeasure3 = Measure(metodaKompresji = 'C', czasKompresji = 35, rozmiarPlikuWejsciowego = uploaded_file.size, rozmiarPlikuWyjsciowego = uploaded_file.size, stopienKompresji = 0)
+    newMeasure4 = Measure(metodaKompresji = 'D', czasKompresji = 45, rozmiarPlikuWejsciowego = uploaded_file.size, rozmiarPlikuWyjsciowego = uploaded_file.size, stopienKompresji = 0)
+    newMeasure5 = Measure(metodaKompresji = 'E', czasKompresji = 55, rozmiarPlikuWejsciowego = uploaded_file.size, rozmiarPlikuWyjsciowego = uploaded_file.size, stopienKompresji = 0)
+ 
+    newMeasure1.save()
+    newMeasure2.save()
+    newMeasure3.save()
+    newMeasure4.save()
+    newMeasure5.save()
+    
+    #measures = Measure.objects.all()
+    serializedMeasure = serializers.serialize('json', Measure.objects.all().order_by('-id')[:numberOfCompressionMethods], fields=('metodaKompresji','czasKompresji', 'rozmiarPlikuWejsciowego', 'rozmiarPlikuWyjsciowego', 'stopienKompresji' ,))
     return JsonResponse(serializedMeasure, safe=False)

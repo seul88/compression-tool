@@ -55,90 +55,25 @@ const buttonClickHandler = () => {
     .then(function (response) {
         console.log(response.data);
         var obj = JSON.parse(response.data)
-        console.log(obj[0].fields)
+        //console.log(obj[0].fields)
+        
+        const tableData = []
 
-        const tableData = 
-        [
-          {
-            "metodaKompresji" : "A",
-            "czasKompresji" : 10,
-            "rozmiarPlikuWejsciowego" : 10,
-            "rozmiarPlikuWyjsciowego" : 10,
-            "stopienKompresji" : 10
-          },
-          {
-            "metodaKompresji" : "B",
-            "czasKompresji" : 10,
-            "rozmiarPlikuWejsciowego" : 10,
-            "rozmiarPlikuWyjsciowego" : 10,
-            "stopienKompresji" : 10
-          },
-          {
-            "metodaKompresji" : "C",
-            "czasKompresji" : 10,
-            "rozmiarPlikuWejsciowego" : 10,
-            "rozmiarPlikuWyjsciowego" : 10,
-            "stopienKompresji" : 10
-          },
-          {
-            "metodaKompresji" : "D",
-            "czasKompresji" : 10,
-            "rozmiarPlikuWejsciowego" : 10,
-            "rozmiarPlikuWyjsciowego" : 10,
-            "stopienKompresji" : 10
-          },
-          {
-            "metodaKompresji" : "E",
-            "czasKompresji" : 10,
-            "rozmiarPlikuWejsciowego" : 10,
-            "rozmiarPlikuWyjsciowego" : 10,
-            "stopienKompresji" : 10
-          }  
-        ];
-      
-      const chartData = [
-        {
-          "metodaKompresji" : "A",
-          "czasKompresji" : 10,
-          "rozmiarPlikuWejsciowego" : 10,
-          "rozmiarPlikuWyjsciowego" : 10,
-          "stopienKompresji" : 10
-        },
-        {
-          "metodaKompresji" : "B",
-          "czasKompresji" : 20,
-          "rozmiarPlikuWejsciowego" : 20,
-          "rozmiarPlikuWyjsciowego" : 20,
-          "stopienKompresji" : 20
-        },
-        {
-          "metodaKompresji" : "C",
-          "czasKompresji" : 30,
-          "rozmiarPlikuWejsciowego" : 30,
-          "rozmiarPlikuWyjsciowego" : 30,
-          "stopienKompresji" : 30
-        },
-        {
-          "metodaKompresji" : "D",
-          "czasKompresji" : 40,
-          "rozmiarPlikuWejsciowego" : 40,
-          "rozmiarPlikuWyjsciowego" : 40,
-          "stopienKompresji" : 40
-        },
-        {
-          "metodaKompresji" : "E",
-          "czasKompresji" : 50,
-          "rozmiarPlikuWejsciowego" : 50,
-          "rozmiarPlikuWyjsciowego" : 50,
-          "stopienKompresji" : 50
-        }
-      ]
-
-      
+        obj.forEach(item => {
+          tableData.push(
+            {
+              "metodaKompresji" : item.fields.metodaKompresji,
+              "czasKompresji" : item.fields.czasKompresji,
+              "rozmiarPlikuWejsciowego" : item.fields.rozmiarPlikuWejsciowego,
+              "rozmiarPlikuWyjsciowego" : item.fields.rozmiarPlikuWyjsciowego,
+              "stopienKompresji" : item.fields.stopienKompresji
+            }
+          )
+        })
 
       setDisplayResults(true)
       setValues(tableData)
-      setChartData(chartData)
+      setChartData(tableData)
 
     })
     .catch(function (response) {
@@ -173,7 +108,7 @@ useEffect(() => {
     
         const files = acceptedFiles.map(file => (
             <li key={file.path}>
-              {file.path} - {file.size} bytes
+              {file.path} - {file.size} B
             </li>
         ));
 
