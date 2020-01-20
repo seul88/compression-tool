@@ -2,6 +2,7 @@ import React, {useEffect} from 'react'
 import { Row, Container } from 'react-bootstrap';
 import  InfoComponent  from './InfoComponent'
 import  LoadFile  from './LoadFile'
+import  AllMeasures  from './AllMeasures'
 
 export default function MainComponent() {
 
@@ -17,6 +18,9 @@ export default function MainComponent() {
             </Row>
             <Row className="justify-content-center">
                 <LoadFile />
+            </Row>
+            <Row className="justify-content-center"> 
+                <AllMeasures />
             </Row>
         </Container>
     )

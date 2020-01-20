@@ -47,10 +47,10 @@ const buttonClickHandler = () => {
   bodyFormData.append('fileUpload', acceptedFiles[0]);
   
   axios({
-    method: 'post',
-    url: 'http://localhost:8000/benchmark/calculate/silaKompresji/' + localStorage.getItem('compressionType') + '/format/' + localStorage.getItem('fileFormat'),
-    data: bodyFormData,
-    headers: {'Content-Type': 'multipart/form-data' }
+      method: 'post',
+      url: 'http://localhost:8000/benchmark/calculate/silaKompresji/' + localStorage.getItem('compressionType') + '/format/' + localStorage.getItem('fileFormat'),
+      data: bodyFormData,
+      headers: {'Content-Type': 'multipart/form-data' }
     })
     .then(function (response) {
         console.log(response.data);
