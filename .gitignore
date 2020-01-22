@@ -106,3 +106,12 @@ frontend/package-lock.json
 *.pyc
 *.lock
 backend/Pipfile.lock
+
+#venv files
+*.venv
+
+#db files
+backend/backendApp/db.sqlite3
+
+#tmp folder
+tmp
