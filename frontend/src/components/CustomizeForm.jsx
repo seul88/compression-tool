@@ -24,10 +24,11 @@ export default function CustomizeForm() {
             <Form.Group controlId="fileFormat">
                 <Form.Label>Format pliku</Form.Label>
                 <Form.Control as="select" onChange={handle2}>
-                    <option>zip</option>
-                    <option>tar.gz</option>
-                    <option>7z</option>
-                    <option>rar</option>
+                    <option>Dowolny</option>
+                    <option>Zip (.zip)</option>
+                    <option>Gzip (.gz)</option>
+                    <option>7z (.7z)</option>
+                    <option>Xz (.xz)</option>
                 </Form.Control>
             </Form.Group>
         </Form>
