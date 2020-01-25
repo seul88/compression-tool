@@ -21,7 +21,7 @@ if (props.chartData){
       labels: methods,
       datasets: [
         {
-          label: "Czas kompresji [ms]",
+          label: "Czas kompresji [s]",
           backgroundColor: 'rgba(52,230,170,0.5)',
           borderColor: 'rgba(99,99,132,1)',
           borderWidth: 1,

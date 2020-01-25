@@ -16,10 +16,10 @@ class Migration(migrations.Migration):
             fields=[
                 ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
                 ('metodaKompresji', models.CharField(max_length=20)),
-                ('czasKompresji', models.IntegerField()),
+                ('czasKompresji', models.FloatField()),
                 ('rozmiarPlikuWejsciowego', models.IntegerField()),
                 ('rozmiarPlikuWyjsciowego', models.IntegerField()),
-                ('stopienKompresji', models.IntegerField()),
+                ('stopienKompresji', models.FloatField()),
             ],
         ),
     ]

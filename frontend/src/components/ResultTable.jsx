@@ -13,10 +13,10 @@ export default function ResultTable(props) {
                     <tr>
                         <th>#</th>
                         <th>Metoda kompresji</th>
-                        <th>Czas kompresji [ms]</th>
+                        <th>Czas kompresji [s]</th>
                         <th>Rozmiar pliku wejściowego [B]</th>
                         <th>Rozmiar pliku wyjściowego [B]</th>
-                        <th>Stopień kompresji [%]</th>
+                        <th>Stopień kompresji [rozmiar archiwum/rozmiar pliku]</th>
                     </tr>
                 </thead>
                 <tbody>
