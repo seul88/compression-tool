@@ -40,29 +40,44 @@ def allMeasures(request):
 @csrf_exempt
 def compressionCalculation(request, silaKompresji, format):
     HASH = generate_random_hash(5)
-    DOWNLOAD_PATH = f'tmp/uploads/{HASH}/'
+    UPLOAD_FOLDER_PATH = f'tmp/uploads/{HASH}/'
     UPLOADED_FILE = request.FILES['fileUpload']
+    RELATIVE_ARCHIVE_FOLDER = f"../../archives/{HASH}"
     COMPRESSION_FORMAT = list(filter(lambda compression_format: compression_format in format, list(compression_args.keys())))[0] #format in user choice
 
-    default_storage.save(f'{DOWNLOAD_PATH}/{UPLOADED_FILE.name}', ContentFile(UPLOADED_FILE.read()))
-
-    numberOfCompressionMethods = len(compression_args[COMPRESSION_FORMAT]['methods'])
-    method_param = compression_args[COMPRESSION_FORMAT]['method_param']
-    for method in compression_args[COMPRESSION_FORMAT]['methods']:
-        method_argument = f"{method_param}{method}" if method_param else ""
-        output = subprocess.run(["time", "7z", method_argument, "a", "-r",f"../../archives/{HASH}/archive_{method}{COMPRESSION_FORMAT}", UPLOADED_FILE.name], capture_output=True, cwd = f"{DOWNLOAD_PATH}")
-        m = re.search('size: .* bytes \(', output.stdout.decode('ascii'))
-        compressed_size = int(m.group(0).split(' ')[1]) 
-        compression_time = float(output.stderr.decode('ascii').split(' ')[0][:-4])
-
-        print (f"time: {compression_time}, size: {compressed_size}")
-        newMeasure = Measure(metodaKompresji = method, czasKompresji = compression_time, rozmiarPlikuWejsciowego = UPLOADED_FILE.size, rozmiarPlikuWyjsciowego = compressed_size, stopienKompresji = compressed_size/UPLOADED_FILE.size)
-        newMeasure.save()
-    
-    
-    #measures = Measure.objects.all()
-    serializedMeasure = serializers.serialize('json', Measure.objects.all().order_by('-id')[:numberOfCompressionMethods], fields=('metodaKompresji','czasKompresji', 'rozmiarPlikuWejsciowego', 'rozmiarPlikuWyjsciowego', 'stopienKompresji' ,))
+    default_storage.save(f'{UPLOAD_FOLDER_PATH}/{UPLOADED_FILE.name}', ContentFile(UPLOADED_FILE.read()))
+    measures = measure_methods_for_format(COMPRESSION_FORMAT, UPLOADED_FILE, UPLOAD_FOLDER_PATH, RELATIVE_ARCHIVE_FOLDER)
+    serializedMeasure = save_and_serialize_measures(measures)
     return JsonResponse(serializedMeasure, safe=False)
 
 def generate_random_hash(length):
     return binascii.b2a_hex(os.urandom(length)).decode('ascii')
+
+def measure_methods_for_format(compression_format, target_file, file_folder, archive_folder):
+    measures = []
+    method_param = compression_args[compression_format]['method_param']
+    for method in compression_args[compression_format]['methods']:
+        method_argument = f"{method_param}{method}" if method_param else ""
+        output = subprocess.run(["time", "7z", method_argument, "a", "-r",f"{archive_folder}/archive_{method}{compression_format}", target_file.name], capture_output=True, cwd = f"{file_folder}")
+        compressed_size, compression_time = process_output_for_time_and_size(output)
+        measures.append(Measure(
+                        metodaKompresji = method,
+                        czasKompresji = compression_time,
+                        rozmiarPlikuWejsciowego = target_file.size,
+                        rozmiarPlikuWyjsciowego = compressed_size,
+                        stopienKompresji = compressed_size/target_file.size)
+                    )
+    return measures
+
+def process_output_for_time_and_size(output):
+    m = re.search('size: .* bytes \(', output.stdout.decode('ascii'))
+    compressed_size = int(m.group(0).split(' ')[1]) 
+    compression_time = float(output.stderr.decode('ascii').split(' ')[0][:-4])
+    return compressed_size, compression_time
+
+def save_and_serialize_measures(measures):
+    for measure in measures:
+        measure.save()
+    numberOfCompressionMethods = len(measures)
+    return serializers.serialize('json', Measure.objects.all().order_by('-id')[:numberOfCompressionMethods], fields=('metodaKompresji','czasKompresji', 'rozmiarPlikuWejsciowego', 'rozmiarPlikuWyjsciowego', 'stopienKompresji' ,))
+
