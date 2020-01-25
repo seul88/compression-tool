@@ -43,10 +43,16 @@ def compressionCalculation(request, silaKompresji, format):
     UPLOAD_FOLDER_PATH = f'tmp/uploads/{HASH}/'
     UPLOADED_FILE = request.FILES['fileUpload']
     RELATIVE_ARCHIVE_FOLDER = f"../../archives/{HASH}"
-    COMPRESSION_FORMAT = list(filter(lambda compression_format: compression_format in format, list(compression_args.keys())))[0] #format in user choice
-
     default_storage.save(f'{UPLOAD_FOLDER_PATH}/{UPLOADED_FILE.name}', ContentFile(UPLOADED_FILE.read()))
-    measures = measure_methods_for_format(COMPRESSION_FORMAT, UPLOADED_FILE, UPLOAD_FOLDER_PATH, RELATIVE_ARCHIVE_FOLDER)
+    measures = []
+    print(format)
+    if format == "Dowolny": 
+        for my_format in list(compression_args.keys()): #todo:refactor
+            measures += measure_methods_for_format(my_format, UPLOADED_FILE, UPLOAD_FOLDER_PATH, RELATIVE_ARCHIVE_FOLDER)
+    else:
+        COMPRESSION_FORMAT = list(filter(lambda compression_format: compression_format in format, list(compression_args.keys())))[0]
+        measures += measure_methods_for_format(COMPRESSION_FORMAT, UPLOADED_FILE, UPLOAD_FOLDER_PATH, RELATIVE_ARCHIVE_FOLDER)
+
     serializedMeasure = save_and_serialize_measures(measures)
     return JsonResponse(serializedMeasure, safe=False)
 
@@ -61,7 +67,7 @@ def measure_methods_for_format(compression_format, target_file, file_folder, arc
         output = subprocess.run(["time", "7z", method_argument, "a", "-r",f"{archive_folder}/archive_{method}{compression_format}", target_file.name], capture_output=True, cwd = f"{file_folder}")
         compressed_size, compression_time = process_output_for_time_and_size(output)
         measures.append(Measure(
-                        metodaKompresji = method,
+                        metodaKompresji = f"{method}_{compression_format}",
                         czasKompresji = compression_time,
                         rozmiarPlikuWejsciowego = target_file.size,
                         rozmiarPlikuWyjsciowego = compressed_size,
