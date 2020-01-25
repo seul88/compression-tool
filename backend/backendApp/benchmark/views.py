@@ -17,16 +17,16 @@ compression_args = {
         "method_param" : "-mm="       
     },
     ".gz" : {
-        "methods" : [""],
-        "method_param" : ""
+        "methods" : ["Deflate"],
+        "method_param" : False
     },
     ".7z" : {
         "methods" : ["LZMA", "LZMA2", "PPMd", "BZip2", "Deflate", "Delta", "BCJ", "BCJ2"],
         "method_param" : "-m0="
     },
     ".xz" : {
-        "methods" : [""],
-        "method_param" : ""
+        "methods" : ["LZMA2"],
+        "method_param" : False
     },
 }
 
@@ -49,7 +49,8 @@ def compressionCalculation(request, silaKompresji, format):
     numberOfCompressionMethods = len(compression_args[COMPRESSION_FORMAT]['methods'])
     method_param = compression_args[COMPRESSION_FORMAT]['method_param']
     for method in compression_args[COMPRESSION_FORMAT]['methods']:
-        output = subprocess.run(["time", "7z", f"{method_param}{method}", "a", "-r",f"../../archives/{HASH}/archive_{method}{COMPRESSION_FORMAT}", UPLOADED_FILE.name], capture_output=True, cwd = f"{DOWNLOAD_PATH}")
+        method_argument = f"{method_param}{method}" if method_param else ""
+        output = subprocess.run(["time", "7z", method_argument, "a", "-r",f"../../archives/{HASH}/archive_{method}{COMPRESSION_FORMAT}", UPLOADED_FILE.name], capture_output=True, cwd = f"{DOWNLOAD_PATH}")
         m = re.search('size: .* bytes \(', output.stdout.decode('ascii'))
         compressed_size = int(m.group(0).split(' ')[1]) 
         compression_time = float(output.stderr.decode('ascii').split(' ')[0][:-4])
