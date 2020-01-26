@@ -30,6 +30,12 @@ compression_args = {
     },
 }
 
+compression_str = {
+    "słaba" : 3,
+    "średnia" : 8,
+    "mocna" : 9
+}
+
 def index(request):
     return HttpResponse("Hello, world. You're at the benchmark index.")
 
@@ -48,10 +54,10 @@ def compressionCalculation(request, silaKompresji, format):
     print(format)
     if format == "Dowolny": 
         for my_format in list(compression_args.keys()): #todo:refactor
-            measures += measure_methods_for_format(my_format, UPLOADED_FILE, UPLOAD_FOLDER_PATH, RELATIVE_ARCHIVE_FOLDER)
+            measures += measure_methods_for_format(my_format, UPLOADED_FILE, UPLOAD_FOLDER_PATH, RELATIVE_ARCHIVE_FOLDER, silaKompresji)
     else:
         COMPRESSION_FORMAT = list(filter(lambda compression_format: compression_format in format, list(compression_args.keys())))[0]
-        measures += measure_methods_for_format(COMPRESSION_FORMAT, UPLOADED_FILE, UPLOAD_FOLDER_PATH, RELATIVE_ARCHIVE_FOLDER)
+        measures += measure_methods_for_format(COMPRESSION_FORMAT, UPLOADED_FILE, UPLOAD_FOLDER_PATH, RELATIVE_ARCHIVE_FOLDER, silaKompresji)
 
     serializedMeasure = save_and_serialize_measures(measures)
     return JsonResponse(serializedMeasure, safe=False)
@@ -59,12 +65,12 @@ def compressionCalculation(request, silaKompresji, format):
 def generate_random_hash(length):
     return binascii.b2a_hex(os.urandom(length)).decode('ascii')
 
-def measure_methods_for_format(compression_format, target_file, file_folder, archive_folder):
+def measure_methods_for_format(compression_format, target_file, file_folder, archive_folder, sila_kompresji):
     measures = []
     method_param = compression_args[compression_format]['method_param']
     for method in compression_args[compression_format]['methods']:
         method_argument = f"{method_param}{method}" if method_param else ""
-        output = subprocess.run(["time", "7z", method_argument, "a", "-r",f"{archive_folder}/archive_{method}{compression_format}", target_file.name], capture_output=True, cwd = f"{file_folder}")
+        output = subprocess.run(["time", "7z", method_argument, f"-mx={compression_str[sila_kompresji]}", "a", "-r",f"{archive_folder}/archive_{method}{compression_format}", target_file.name], capture_output=True, cwd = f"{file_folder}")
         compressed_size, compression_time = process_output_for_time_and_size(output)
         measures.append(Measure(
                         metodaKompresji = f"{method}_{compression_format}",

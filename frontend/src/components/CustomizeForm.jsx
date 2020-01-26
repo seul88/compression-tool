@@ -16,9 +16,9 @@ export default function CustomizeForm() {
             <Form.Group controlId="compressionType">
                 <Form.Label>Siła kompresji</Form.Label>
                 <Form.Control as="select" onChange={handle1}>
-                    <option>słaba</option>
-                    <option>średnia</option>
                     <option>mocna</option>
+                    <option>średnia</option>
+                    <option>słaba</option>
                 </Form.Control>
             </Form.Group>
             <Form.Group controlId="fileFormat">
